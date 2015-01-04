@@ -6,4 +6,4 @@
 (defmacro match
   "Match a route and return a value."
   [route value]
-  `(sty/defroute ~route {:as p#} {:value ~value :params p#}))
+  `(sty/defroute ~route {:as p#} [~value p#]))

@@ -43,7 +43,7 @@
 
 
 ;; The callback to be called when navigation happens
-(def ^:private callback (atom #(do nil)))
+(def ^:private callback (atom identity))
 
 (defn set-callback!
   "Set the callback function for navigation event."
@@ -55,8 +55,8 @@
 ;; Listen to navigation events and call the callback
 (events/listen history EventType/NAVIGATE
                (fn [nav]
-                 (let [param (secretary/dispatch! (.-token nav))]
-                   (@callback param))))
+                 (let [params (secretary/dispatch! (.-token nav))]
+                   (apply @callback params))))
 
 
 
