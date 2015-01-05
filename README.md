@@ -65,3 +65,37 @@ You can navigate to a new route with `(router/navigate! "/new/route")`.
 
 Also, you can prevent the default behaviour of links and buttons from refreshing the window with
 `(router/prevent-default-refresh!)`.
+
+
+## [React](http://facebook.github.io/react/index.html)
+
+In the `router.react` namespace resides a default callback which you can use to mount your pages to
+specific DOM node.
+
+```clojure
+(ns some-ns
+  (:require [router.react :as rr]))
+
+(rr/initiate! (.-body js/document))
+```
+
+The callback expects that the values you associated with the routes are either React elements or
+functions of one parameter which return react elements. The parameter is `params` of the route.
+
+On page navigation the supplied React element will be rendered on the DOM node.
+
+
+## [Reagent](http://reagent-project.github.io/index.html)
+
+The `router.reagent` namespace provides a different `match` macro to facilitate using Reagent
+components.
+
+```clojure
+(ns some-ns
+  (:require [router.reagent :refer-macros (match)]))
+
+(match "/some-path" {:keys [param1] :as route-params} [reagent-component param1 param2 ...])
+```
+
+This macro delegates to the original `router.core/match` macro and assosiates with the route a
+function with the shape that `router.react`'s callback requires.
