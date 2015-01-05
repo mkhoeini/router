@@ -74,15 +74,33 @@ specific DOM node.
 
 ```clojure
 (ns some-ns
-  (:require [router.react :as rr]))
+  (:require [router.core :refer-macros (match)]
+            [router.react :as rr]))
+
+(match "/some-route" some-react-element)
+(match "/other-route" (fn [p] construct-and-return-an-react-element))
 
 (rr/initiate! (.-body js/document))
 ```
 
-The callback expects that the values you associated with the routes are either React elements or
+`router.react` expects that the values you associated with the routes are either React elements or
 functions of one parameter which return react elements. The parameter is `params` of the route.
 
 On page navigation the supplied React element will be rendered on the DOM node.
+
+You can pass a custom callback to transform the event before it acts upon it, or do any other thing
+with it.
+
+```clojure
+(defn optional-callback
+  "It must accept two params:
+    value: The assosiated value with the route
+    params: The route's params
+  And returns a vector of two: The transformed value and params."
+  [value params]
+  (pr "recieved" value params)
+  [value params])
+```
 
 
 ## [Reagent](http://reagent-project.github.io/index.html)
