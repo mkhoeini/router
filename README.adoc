@@ -125,6 +125,36 @@ This macro delegates to the original `router.core/match` macro and assosiates wi
 function with the shape that callback of `router.react` requires.
 
 
+== What Is a Router
+
+----
+    Dispatcher:   System  ---->  Route Objects*
+    Commiter:     System  <----  Route Object
+    
+    Routing Table:
+    [
+      name:    route object  <-- assosiation -->  route value ,
+      name:    route object  <-- assosiation -->  route value ,
+      name:    route object  <-- assosiation -->  route value ,
+      ...
+    ]
+----
+
+Routing is a separate concern from application logic. By complecting routing with logic only a little can be obtained, and a lot will be lost as a result. It is better that we create a composable and flexible routing system which can be bent to different use cases, but by default it does the right thing: no logic in routing.
+
+A router in its simplest form is a set of three things: Dispatcher, Commiter, Routing Table.
+Dispatcher and Commiter are system specific. For example, browser tailored, ring tailored, memcache tailored, etc.
+But Routing Table is application specific.
+
+Usually the Dispatcher and Commiter are provided for you, and you only create a routing table. However, Dispatcher and Commiter are the points of composition. And they can provide the means to the infinite flexibility.
+
+The dispatcher-commiter duo establish a one to one correspondence between the system state and Routing objects. The Dispatcher component listens to the system state and emits new Route objects on the system transition. And the commiter receives Route objects and transitions the system state to match the route object.
+
+Now, the routing table is almost the same thing, if you've made dispatcher-commiter application specific and partial.
+
+Each association in the Routing Table is a uniqely named bidirectional partial function between a system domain representation of state and an application domain representation of state. What this means is that if you pass a route object to an assosiation, it might return you an analogy of it in terms of the application. For example, for something like `"api.example.com/v2/users/123"`, an association named `users` might return an object `JohnDoe`. And the other direction must work as well. Which means, association `users` must uniqely map `JohnDoe` to the route object `"api.example.com/v2/users/123"`.
+
+
 == Further Ideas
 
 * Make it isomorphic and integrate ideas from https://github.com/mkhoeini/trouter .
