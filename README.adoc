@@ -1,12 +1,16 @@
-# router
+= router
+:toc: macro
+
+toc::[]
+
 
 A Clojurescript library designed to help routing in the browser.
 
-## Usage
+== Usage
 
 Include the dependency in your project.clj.
 
-[![Clojars Project](http://clojars.org/org.clojars.mkhoeini/router/latest-version.svg)](https://clojars.org/org.clojars.mkhoeini/router)
+image::http://clojars.org/org.clojars.mkhoeini/router/latest-version.svg[link="https://clojars.org/org.clojars.mkhoeini/router"]
 
 Then require the `router.core` in your cljs files.
 
@@ -15,7 +19,7 @@ Then require the `router.core` in your cljs files.
   (:require [router.core :as router :include-macros true]))
 ```
 
-Define your routes with the `match` macro. The syntax is of the [secretary](https://github.com/gf3/secretary).
+Define your routes with the `match` macro. The syntax is of the link:https://github.com/gf3/secretary[secretary].
 However, it is simplified in that it will accept only a value, and doesn't pass parameters to the body.
 
 ```clojure
@@ -67,7 +71,8 @@ Also, you can prevent the default behaviour of links and buttons from refreshing
 `(router/prevent-default-refresh!)`.
 
 
-## [React](http://facebook.github.io/react/index.html)
+== React
+http://facebook.github.io/react/index.html
 
 In the `router.react` namespace resides a default callback which you can use to mount your pages to
 specific DOM node.
@@ -103,7 +108,8 @@ with it.
 ```
 
 
-## [Reagent](http://reagent-project.github.io/index.html)
+== Reagent
+http://reagent-project.github.io/index.html
 
 The `router.reagent` namespace provides a different `match` macro to facilitate using Reagent
 components.
@@ -116,4 +122,10 @@ components.
 ```
 
 This macro delegates to the original `router.core/match` macro and assosiates with the route a
-function with the shape that `router.react`'s callback requires.
+function with the shape that callback of `router.react` requires.
+
+
+== Further Ideas
+
+* Make it isomorphic and integrate ideas from https://github.com/mkhoeini/trouter .
+* Make router irrelivant or a separate concern by integrating it with https://github.com/mkhoeini/dispatcher .
